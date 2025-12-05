@@ -15,20 +15,12 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
-    // rollupOptions: {
-    //   input: {
-    //     main: resolve(__dirname, 'index.html'),
-    //   },
-    //   output: {
-    //     dir: resolve(__dirname, 'dist'),
-    //   },
-    // },
     rollupOptions: {
       input: {
-        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        main: resolve(__dirname, 'index.html'),
       },
       output: {
-        dir: fileURLToPath(new URL('./dist', import.meta.url)),
+        dir: resolve(__dirname, 'dist'),
       },
     },
   },
