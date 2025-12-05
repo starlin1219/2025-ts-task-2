@@ -59,39 +59,39 @@ export type Pagination = {
 
 // TODO: 定義建立商品參數型別
 // 提示：建立商品時不需要 id 和 num 欄位
-// export type CreateProductParams = Omit<ProductData, 'id' | 'num'>
-export type CreateProductParams = {
-  // 在這裡加上型別定義，將 unknown 替換為正確的型別
-  title: string
-  category: string
-  origin_price: number
-  price: number
-  unit: string
-  description: string
-  content: string
-  is_enabled: number
-  imageUrl: string
-  imagesUrl: string[]
-}
+export type CreateProductParams = Omit<ProductData, 'id' | 'num'>
+// export type CreateProductParams = {
+//   // 在這裡加上型別定義，將 unknown 替換為正確的型別
+//   title: string
+//   category: string
+//   origin_price: number
+//   price: number
+//   unit: string
+//   description: string
+//   content: string
+//   is_enabled: number
+//   imageUrl: string
+//   imagesUrl: string[]
+// }
 
 // TODO: 定義編輯商品參數型別
 // 提示：編輯商品需要 id 和 data 物件
 export type EditProductParams = {
   // 在這裡加上型別定義，將 unknown 替換為正確的型別
   id: string
-  // data: Omit<ProductData, 'id' | 'num'>
-  data: {
-    title: string
-    category: string
-    origin_price: number
-    price: number
-    unit: string
-    description: string
-    content: string
-    is_enabled: number
-    imageUrl: string
-    imagesUrl: string[]
-  }
+  data: Omit<ProductData, 'id' | 'num'>
+  // data: {
+  //   title: string
+  //   category: string
+  //   origin_price: number
+  //   price: number
+  //   unit: string
+  //   description: string
+  //   content: string
+  //   is_enabled: number
+  //   imageUrl: string
+  //   imagesUrl: string[]
+  // }
 }
 
 // TODO: 定義取得商品列表回應型別
