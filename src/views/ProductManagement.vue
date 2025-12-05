@@ -15,32 +15,32 @@ TypeScript 練習題目 - 商品管理頁面
 <script setup lang="ts">
 // TODO: 匯入 API 函式
 // 提示：從 @/api/products 匯入 apiDeleteProduct, apiGetProducts
-import {} from '@/api/products'
+import { apiDeleteProduct, apiGetProducts } from '@/api/products'
 
 import DeleteModal from '@/components/DeleteModal.vue'
 import ProductModal from '@/components/ProductModal.vue'
 
 // TODO: 匯入型別定義
 // 提示：從 @/types/product 匯入 Pagination, ProductData
-import type {} from '@/types/product'
+import type { Pagination, ProductData } from '@/types/product'
 import { onMounted, ref, useTemplateRef } from 'vue'
 
 // TODO: 為模板引用加上型別註解
 // 提示：使用 useTemplateRef<InstanceType<typeof ProductModal>>()
-const productModalRef = useTemplateRef('productModalRef')
-const deleteModalRef = useTemplateRef('deleteModalRef')
+const productModalRef = useTemplateRef<InstanceType<typeof ProductModal>>('productModalRef')
+const deleteModalRef = useTemplateRef<InstanceType<typeof DeleteModal>>('deleteModalRef')
 
 // TODO: 為 currentPage 加上型別註解
 // 提示：使用 ref<string>()
-const currentPage = ref('1')
+const currentPage = ref<string>('1')
 
 // TODO: 為 products 加上型別註解
 // 提示：使用 ref<ProductData[]>()
-const products = ref([])
+const products = ref<ProductData[]>([])
 
 // TODO: 為 pagination 加上型別註解
 // 提示：使用 ref<Pagination>()
-const pagination = ref({
+const pagination = ref<Pagination>({
   total_pages: 0,
   current_page: 0,
   has_pre: false,
@@ -66,7 +66,7 @@ onMounted(() => {
 
 // TODO: 為 getInitialProductData 函式加上型別註解
 // 提示：這個函式不接受參數，回傳 ProductData 型別
-const getInitialProductData = () => ({
+const getInitialProductData = (): ProductData => ({
   id: '',
   title: '',
   origin_price: 0,
@@ -83,13 +83,15 @@ const getInitialProductData = () => ({
 
 // TODO: 為 tempProduct 加上型別註解
 // 提示：使用 ref<ProductData>()
-const tempProduct = ref(getInitialProductData())
+const tempProduct = ref<ProductData>(getInitialProductData())
 
 // TODO: 為 openModal 函式加上型別註解
 // 提示：參數 product 的型別是 ProductData | null，預設值是 null，沒有回傳值
-const openModal = (product = null) => {
+const openModal = (product: ProductData | null = null) => {
   if (product) {
     tempProduct.value = { ...product, imagesUrl: product.imagesUrl ? [...product.imagesUrl] : [''] }
+  } else {
+    tempProduct.value = getInitialProductData()
   }
 
   productModalRef.value?.openModal()
@@ -97,13 +99,13 @@ const openModal = (product = null) => {
 
 // TODO: 為 openDeleteModal 函式加上型別註解
 // 提示：參數 productId 是 string 型別，沒有回傳值
-const openDeleteModal = (productId) => {
+const openDeleteModal = (productId: string) => {
   deleteModalRef.value?.openModal(() => handleDeleteProduct(productId))
 }
 
 // TODO: 為 handleDeleteProduct 函式加上型別註解
 // 提示：這是一個 async 函式，參數 productId 是 string 型別，回傳 Promise<void>
-const handleDeleteProduct = async (productId) => {
+const handleDeleteProduct = async (productId: string): Promise<void> => {
   try {
     await apiDeleteProduct(productId)
   } catch (error) {
@@ -189,7 +191,7 @@ const handleDeleteProduct = async (productId) => {
               <span aria-hidden="true">&laquo;</span>
             </button>
           </li>
-          <li v-for="pageNum in pagination?.total_pages" class="page-item">
+          <li v-for="pageNum in pagination?.total_pages" class="page-item" :key="pageNum">
             <button
               @click="currentPage = pageNum.toString()"
               :disabled="currentPage === pageNum.toString()"
